@@ -7,7 +7,7 @@ ul {
   list-style: none;
 }
 
-a:hover {
+.navOption:hover {
   color: greenyellow;
   text-decoration: underline;
   cursor: pointer;
