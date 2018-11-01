@@ -12,7 +12,7 @@ function AppHeader(props) {
       <h4>by Microsobrevivencia</h4>
       <NavMenu>
         <Link to='/' className="navOption">Home</Link>
-        <Link to='/favorites' className="navOption">Favoritos</Link>
+        <Link to='/favorites' onClick={props.click} className="navOption">Favoritos</Link>
         <SearchBar submit={props.submit}/>
       </NavMenu>
     </header>

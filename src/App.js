@@ -30,13 +30,6 @@ class App extends Component {
     document.getElementById('searchInput').value = ''
   }
 
-  // saveNewFavorite = (newFavorite) => {
-  //   let oldFavorites = this.state.userFavorites;
-  //   let userNewFavorites;
-  //   userNewFavorites = oldFavorites ? [...oldFavorites, newFavorite] : [newFavorite];
-  //   this.setState({userFavorites: userNewFavorites})
-  // }
-
   componentDidMount() {
     if (localStorage.getItem("userFavorites") === null) {
       localStorage.setItem("userFavorites", "[]");
@@ -45,25 +38,38 @@ class App extends Component {
     console.log('mount');
   }
 
-  // saveNewFavorites = () => {
-  //   this.setState({userFavorites: JSON.parse(localStorage.getItem('userFavorites'))})
-  // }
+  saveNewFavorites = () => {
+    this.setState({userFavorites: JSON.parse(localStorage.getItem('userFavorites'))})
+  }
+
+  handleDeleteClick = (event) => {
+    let deleteItem = event.target.id;
+    let getItems = JSON.parse(localStorage.getItem('userFavorites'));
+    getItems.forEach(function(item) {    
+      if (item.videoId === deleteItem) {
+        getItems.splice(item, 1);
+      }
+    });   
+    localStorage.setItem('userFavorites', JSON.stringify(getItems));
+    this.setState({userFavorites: JSON.parse(localStorage.getItem('userFavorites'))})
+  }
 
   render() {
     return (
       <BrowserRouter>
         <div>
-          <AppHeader submit={this.getData} />
+          <AppHeader click={this.saveNewFavorites} submit={this.getData} />
           <Main>
             <Switch>
               <Route path='/' exact component={ () => this.state.videos.map(video =>
-                <VideoCard url={video.snippet.thumbnails.medium.url} videoId={video.id.videoId} title={video.snippet.title} description={video.snippet.description} key={video.id.videoId}>
-                  <InteractiveIcon />
+                <VideoCard url={video.snippet.thumbnails.medium.url} title={video.snippet.title} description={video.snippet.description} key={video.id.videoId}>
+                  {/* <InteractiveIcon iconId={}  iconClass={} title={} description={} url={} /> */}
                 </VideoCard>
-
               )} />
               <Route path='/favorites' render={ () => this.state.userFavorites.map(userFavorite =>
-                <VideoCard favicon={"fas fa-trash-alt delete m-1"} url={userFavorite.url} videoId={userFavorite.videoId} title={userFavorite.title} description={userFavorite.description} key={userFavorite.videoId} />
+                <VideoCard  delClick={this.handleDeleteClick} url={userFavorite.url} title={userFavorite.title} description={userFavorite.description} key={userFavorite.videoId}>
+                  {/* <InteractiveIcon iconId={}  iconClass={} title={} description={} url={} /> */}
+                </VideoCard>
               )} />
             </Switch>
           </Main>
@@ -73,13 +79,5 @@ class App extends Component {
     );
   }
 }
-
-{/* <Route path='/' exact component={ () => 
-  <i onClick={this.handleFavoriteClick} className={this.state.isFavorite ? "fas red fa-heart heart m-1" : "far fa-heart heart m-1" } id={this.props.videoId} data-title={this.props.title} data-description={this.props.description} data-url={this.props.url}></i>
-} />
-<Route path='/favorites' render={ () => 
-  <i onClick={this.handleDeleteClick} className="fas fa-trash-alt delete m-1" id={this.props.videoId} data-title={this.props.title} data-description={this.props.description} data-url={this.props.url}></i>
-} /> */}
-
 
 export default App;
