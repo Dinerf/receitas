@@ -4,7 +4,7 @@ import './Main.css';
 
 function NavMenu(props) {
   return (
-    <nav className="bg-dark w-50 m-auto d-flex flex-row justify-content-between">
+    <nav className="d-flex flex-row justify-content-between bg-dark m-auto p-2 nav-menu">
       {props.children}
     </nav>
   )
