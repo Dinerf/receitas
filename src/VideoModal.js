@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import './Main.css';
-import {Route} from 'react-router-dom';
 
 class VideoModal extends Component {
   constructor(props) {
@@ -13,14 +12,11 @@ class VideoModal extends Component {
 
   render() {
     return (
-      <div className="text-justify recipe-description p-1 d-flex flex-row">
-        <p>{this.props.description}</p>
-        <Route path='/' exact component={ () => 
-          <i onClick={this.props.click} className={this.state.isFavorite ? "fas red fa-heart heart m-1" : "far fa-heart heart m-1" } id={this.props.videoId} data-title={this.props.title} data-description={this.props.description} data-url={this.props.url}></i>
-        } />
-        <Route path='/favorites' render={ () => 
-          <i onClick={this.props.delClick} className="fas fa-trash-alt delete m-1" id={this.props.videoId} data-title={this.props.title} data-description={this.props.description} data-url={this.props.url}></i> 
-        } />
+      <div className="text-justify video-modal p-1 d-flex flex-column video-modal">
+        <div className="m-auto w-100">
+          <iframe width="100%" height="auto" src={"https://www.youtube.com/embed/" + this.props.videoId} title="Microsobrevivência" frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
+          <p onClick={this.props.close} className="navOption text-center">Fechar</p>
+        </div>
       </div>
     )
   }
